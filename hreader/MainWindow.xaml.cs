@@ -1,23 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.IO;
-using System.Windows.Media.Animation;
-using System.Text.RegularExpressions;
 
 namespace hreader
 {
@@ -31,7 +22,7 @@ namespace hreader
         {
             InitializeComponent();
             LoadSettings();
-            Settings(this,new RoutedEventArgs { });
+            Settings(this, new RoutedEventArgs { });
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             Process[] pname = Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension("fdash.exe"));
             foreach (Process p in pname)
@@ -139,16 +130,16 @@ namespace hreader
 
             string Name = "\"" + normalize(NameTextBox.Text) + "\"";
 
-            char textcolor = getColor(chatter2colorpicker.SelectedColor ?? Color.FromRgb(255,255,255));
+            char textcolor = getColor(chatter2colorpicker.SelectedColor ?? Color.FromRgb(255, 255, 255));
 
-            string args = 
-                Name 
+            string args =
+                Name
                 + " \"" + Properties.Settings.Default.Directory + "\" "
-                + langselect + " " 
-                + TrimCheckbox.IsChecked.ToString().ToLower() + " " 
-                + ResTextBox.Text.ToString() + " " 
+                + langselect + " "
+                + TrimCheckbox.IsChecked.ToString().ToLower() + " "
+                + ResTextBox.Text.ToString() + " "
                 + TrimlimitTextBox.Text.ToString() + " "
-                + ModeBox.SelectedItem.ToString().Substring(38,4).ToLower() + " "
+                + ModeBox.SelectedItem.ToString().Substring(38, 4).ToLower() + " "
                 + "15" + " "
                 + WordNBox.Text.ToString() + " "
                 + chatter1colorpicker.SelectedColor.ToString().Replace("#FF", "#") + " " + chatter2colorpicker.SelectedColor.ToString().Replace("#FF", "#") + " "
@@ -178,46 +169,46 @@ namespace hreader
                 {
                     //UpdateCls(e.Data);
 
-                        if (e.Data.Contains("Exception"))
+                    if (e.Data.Contains("Exception"))
+                    {
+                        int eN = Int32.Parse(e.Data.Substring(12, 1));
+                        switch (eN)
                         {
-                            int eN = Int32.Parse(e.Data.Substring(12, 1));
-                            switch (eN)
-                            {
-                                case 1:
-                                    UpdateCls("conversation not found");
-                                    break;
-                                case 2:
-                                    UpdateCls("language file not found");
-                                    break;
-                                case 3:
-                                    UpdateCls("language directory not found");
-                                    break;
-                                case 4:
-                                    UpdateCls("language file reading error");
-                                    break;
-                                case 5:
-                                    UpdateCls("essential file error");
-                                    break;
-                                case 6:
-                                    UpdateCls("trimming exclusions file error");
-                                    break;
-                            }
-
-                            Process[] pname = Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension("fdash.exe"));
-                            foreach (Process p in pname)
-                            {
-                                p.Kill();
-                                p.Dispose();
-                                this.Dispatcher.Invoke(() =>
-                                {
-                                    StatusBlock.Text = "Status: not running";
-                                    running = false;
-                                    Progress.Value = 100;
-                                    v = 0;
-                                    Progress.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFF3232"));
-                                });
-                            }
+                            case 1:
+                                UpdateCls("conversation not found");
+                                break;
+                            case 2:
+                                UpdateCls("language file not found");
+                                break;
+                            case 3:
+                                UpdateCls("language directory not found");
+                                break;
+                            case 4:
+                                UpdateCls("language file reading error");
+                                break;
+                            case 5:
+                                UpdateCls("essential file error");
+                                break;
+                            case 6:
+                                UpdateCls("trimming exclusions file error");
+                                break;
                         }
+
+                        Process[] pname = Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension("fdash.exe"));
+                        foreach (Process p in pname)
+                        {
+                            p.Kill();
+                            p.Dispose();
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                StatusBlock.Text = "Status: not running";
+                                running = false;
+                                Progress.Value = 100;
+                                v = 0;
+                                Progress.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFF3232"));
+                            });
+                        }
+                    }
                 }
             });
 
@@ -256,8 +247,8 @@ namespace hreader
                     //v++;
                 });*/
 
-                
-                if ((e.Contains('*')==false)&&(e.Contains('[') == false)&&(e.Contains("WARNING") == false) && (e.Contains("WSGI") == false))
+
+                if ((e.Contains('*') == false) && (e.Contains('[') == false) && (e.Contains("WARNING") == false) && (e.Contains("WSGI") == false))
                 {
                     this.Dispatcher.Invoke(() =>
                     {
@@ -270,7 +261,7 @@ namespace hreader
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        exedir.Text += "dashboard running on http://127.0.0.1:8050/\n"; 
+                        exedir.Text += "dashboard running on http://127.0.0.1:8050/\n";
                         Process.Start("http://127.0.0.1:8050/");
                         Progress.Value = 100;
                     });
@@ -290,7 +281,7 @@ namespace hreader
                     p.Dispose();
                     this.Dispatcher.Invoke(() =>
                     {
-                        if(!exedir.Text.Contains("dashboard closed"))
+                        if (!exedir.Text.Contains("dashboard closed"))
                             exedir.Text += "dashboard closed\n";
                         StatusBlock.Text = "Status: not running";
                         running = false;
@@ -347,7 +338,7 @@ namespace hreader
         private void Exit(object sender, RoutedEventArgs e)
         {
             SaveSettings();
-            AppClose(this,e);
+            AppClose(this, e);
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -371,29 +362,29 @@ namespace hreader
                 this.Dispatcher.Invoke(() =>
                 {
                     System.Windows.Application.Current.MainWindow.Height = 375;
-                AdvSettings.Visibility = System.Windows.Visibility.Hidden;
+                    AdvSettings.Visibility = System.Windows.Visibility.Hidden;
                 });
             }
         }
 
-        private void TrimmingPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e){TrimmingPopup.IsOpen = true;}
-        private void TrimmingPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e){TrimmingPopup.IsOpen = false;}
-        private void LangPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e){LangPopup.IsOpen = false;}
-        private void LangPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e){LangPopup.IsOpen = true;}
-        private void ModePopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e){ModePopup.IsOpen = false;}
-        private void ModePopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e){ModePopup.IsOpen = true;}
-        private void ResolutionPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e){ResolutionPopup.IsOpen = false;}
-        private void ResolutionPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e){ResolutionPopup.IsOpen = true;}
-        private void ColumnPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e){ColumnPopup.IsOpen = false;}
-        private void ColumnPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e){ColumnPopup.IsOpen = true;}
-        private void TrimlimitPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e){TrimlimitPopup.IsOpen = false;}
-        private void TrimlimitPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e){TrimlimitPopup.IsOpen = true;}
-        private void ColorPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e){ColorPopup.IsOpen = false;}
-        private void ColorPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e){ColorPopup.IsOpen = true;}
-        private void TrimEditPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e){TrimEditPopup.IsOpen = false;}
-        private void TrimEditPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e){TrimEditPopup.IsOpen = true;}
-        private void CommonWordsPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e){CommonWordsPopup.IsOpen = false;}
-        private void CommonWordsPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e){CommonWordsPopup.IsOpen = true;}
+        private void TrimmingPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) { TrimmingPopup.IsOpen = true; }
+        private void TrimmingPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) { TrimmingPopup.IsOpen = false; }
+        private void LangPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) { LangPopup.IsOpen = false; }
+        private void LangPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) { LangPopup.IsOpen = true; }
+        private void ModePopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) { ModePopup.IsOpen = false; }
+        private void ModePopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) { ModePopup.IsOpen = true; }
+        private void ResolutionPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) { ResolutionPopup.IsOpen = false; }
+        private void ResolutionPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) { ResolutionPopup.IsOpen = true; }
+        private void ColumnPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) { ColumnPopup.IsOpen = false; }
+        private void ColumnPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) { ColumnPopup.IsOpen = true; }
+        private void TrimlimitPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) { TrimlimitPopup.IsOpen = false; }
+        private void TrimlimitPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) { TrimlimitPopup.IsOpen = true; }
+        private void ColorPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) { ColorPopup.IsOpen = false; }
+        private void ColorPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) { ColorPopup.IsOpen = true; }
+        private void TrimEditPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) { TrimEditPopup.IsOpen = false; }
+        private void TrimEditPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) { TrimEditPopup.IsOpen = true; }
+        private void CommonWordsPopup_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) { CommonWordsPopup.IsOpen = false; }
+        private void CommonWordsPopup_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) { CommonWordsPopup.IsOpen = true; }
 
         private char normalizeChar(char c)
         {
@@ -436,14 +427,15 @@ namespace hreader
             return new String(normalizedArray);
         }
 
-        private char getColor(Color c) {
+        private char getColor(Color c)
+        {
             var r = c.R;
             var g = c.G;
             var b = c.B;
 
             var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
 
-            if (yiq >= 128)
+            if (yiq >= 160)
                 return '0';
             else
                 return '1';
