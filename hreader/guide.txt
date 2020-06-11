@@ -1,0 +1,45 @@
+Booleans:
+	trimming /
+
+Integers:	
+	resolution /
+	trimlimit /
+	zoomlevels	(?)
+	wordcolumns /
+
+Colors:
+	chatter1 /
+	chatter2 / 
+
+Strings:
+	lang /
+	defaultmode /
+	trimmingexclusions[] /
+	commonwords[] /
+	
+ Background="#FF212121"
+ 
+ #name, directory, language, trimming, resolution, trimlimit, mode, l, wordn, chattercolor[0], chattercolor[1]
+ 
+        #os.write(1, bytes('conversation not found in format: '+mode+'\n', 'utf-8'))
+        os.write(1, bytes('E1', 'utf-8'))
+        
+        #os.write(1, bytes('file '+lang+'.txt not found\n', 'utf-8'))
+        os.write(1, bytes('E2', 'utf-8'))
+
+        #os.write(1, bytes('language directory not found\n', 'utf-8'))
+        os.write(1, bytes('E3', 'utf-8'))
+
+        #os.write(1, bytes('reading language file error\n', 'utf-8'))
+        os.write(1, bytes('E4', 'utf-8'))
+        
+        #os.write(1, bytes('messexclusions language file error\n', 'utf-8'))
+        os.write(1, bytes('E5', 'utf-8'))
+        
+        #os.write(1, bytes('trimming exclusions file error\n', 'utf-8'))
+        os.write(1, bytes('E6', 'utf-8'))
+        
+        #FF008080
+        #FF9370DB
+        
+        "Natalia Kalinska" C:\Facebook pl true 50 2 JSON 15 40 #C73679 #3679C7
