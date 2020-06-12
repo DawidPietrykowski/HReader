@@ -1,0 +1,2 @@
+pyinstaller -D --add-data "needed_for_exe/dash_core_components;dash_core_components" --add-data "needed_for_exe/dash_html_components;dash_html_components" --add-data "needed_for_exe/dash_renderer;dash_renderer" --add-data "needed_for_exe/dash;dash" --add-data "needed_for_exe/plotly;plotly" --add-data "assets;assets" --add-data "lang;lang" --distpath "./fdash_exe" --noconfirm fdash.py
+PAUSE

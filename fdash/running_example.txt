@@ -1,0 +1,2 @@
+#name, directory, language, trimming, resolution, trimlimit, mode, l, wordn, chattercolor[0], chattercolor[1], textcolor
+fdash.py "Name Surname" "C:\" en True 50 2 json 15 40 #C73679 #3679C7 1
