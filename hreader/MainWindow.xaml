@@ -266,7 +266,7 @@
             </WrapPanel>
         </Grid>
 
-        <ProgressBar Name ="Progress" Margin="0,0,25,160" Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" Background="{StaticResource Secondary}" BorderThickness="2" BorderBrush="{StaticResource Lighter}" HorizontalAlignment="Right" Width="450" Height="30" VerticalAlignment="Bottom" Focusable="False" Padding="0" SmallChange="1"/>
+        <ProgressBar Name ="Progress" Margin="0,0,25,170" Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" Background="{StaticResource Secondary}" BorderThickness="2" BorderBrush="{StaticResource Lighter}" HorizontalAlignment="Right" Width="450" Height="30" VerticalAlignment="Bottom" Focusable="False" Padding="0" SmallChange="1"/>
         <TextBlock Name="exedir" HorizontalAlignment="Left" Margin="25,0,0,25" TextWrapping="Wrap" Width="300" Foreground="White" FontFamily="Arial" Height="112" VerticalAlignment="Bottom" Focusable="False"/>
         <Button Content="Stop dashboard" Margin="0,0,25,25" Click="Close" RenderTransformOrigin="1,1" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="100" Background="{StaticResource Lighter}" Foreground="White" BorderBrush="#FF707070" BorderThickness="0" FontFamily="Roboto"/>
 

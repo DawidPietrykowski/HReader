@@ -1,0 +1,21 @@
+Czat wideo zakończył się.
+dzwoniła do Ciebie.
+dzwonił do Ciebie.
+Zadzwoniłeś do 
+Zadzwoniłaś do 
+ wysłała załącznik.
+Masz nieodebrane połączenie
+Masz nieodebrane połączenie wideo
+udziału w Twoim czacie wideo.
+ zaprasza Cię do zagrania w
+ właśnie zagrał(a). Twoja kolejka!
+Ustawiono nick użytkownika
+ wykonał ruch. Twoja kolej!
+ Prawie ma rybę #
+ odegrał, teraz twoja kolej!
+Test:
+Word Blitz:
+.com
+.pl
+https://
+http://

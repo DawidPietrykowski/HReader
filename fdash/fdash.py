@@ -232,20 +232,20 @@ def readCounters():
 
     mcw = [[],[]]
     mc = [[[],[]],[[],[]]]
-    for i in range(0,len(tmpa)):
-        mcw[0].insert(0,tmpa[i][0].upper())
-        mcw[1].insert(0,tmpa[i][1])
-        mc[0][0].insert(0,tmpa[i][0])
-        mc[0][1].insert(0,counter[0][tmpa[i][0]])
-        mc[1][0].insert(0,tmpa[i][0])
-        mc[1][1].insert(0,counter[1][tmpa[i][0]])
+    for i in range(0, len(tmpa)):
+        mcw[0].insert(0, tmpa[i][0].upper())
+        mcw[1].insert(0, tmpa[i][1])
+        mc[0][0].insert(0, tmpa[i][0])
+        mc[0][1].insert(0, counter[0][tmpa[i][0]])
+        mc[1][0].insert(0, tmpa[i][0])
+        mc[1][1].insert(0, counter[1][tmpa[i][0]])
 
     if len(tmpa) >= 1:
         maxval = int(np.max([np.max(mc[0][1]),np.max(mc[1][1])]))
     else:
         maxval = 1
 
-    for i in range(0,len(tmpa)):
+    for i in range(0, len(tmpa)):
         mc[0][1][i] = mc[0][1][i] * -1
 
 def round_down(n, decimals=0):
@@ -1098,11 +1098,13 @@ if messmode == 0:
 else:
     tpl = [0,1]
 
+app.title = "HReader"
+
 app.layout = html.Div([html.Link(href="https://fonts.googleapis.com/css?family=Roboto:500&display=swap", rel="stylesheet"),
     html.Link(href="https://fonts.googleapis.com/css?family=Spartan&display=swap", rel="stylesheet"),
     html.Link(href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap", rel="stylesheet"),
     html.Link(href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap", rel="stylesheet"),
-    
+
     html.Div([html.Div([html.H2('Showing:', className="B4")]),
     html.Div([html.Button('Messages', id='btn-nclicks-m', n_clicks=tpl[0], className="B1", style={'background-color':chattercolor[1],'border-color':chattercolor[0],'color':textcolor})],style={'float':'left','position':'relative'}),
     html.Div([html.Button('Words', id='btn-nclicks-w', n_clicks=tpl[1], className="B2", style={'background-color':chattercolor[1],'border-color':chattercolor[0],'color':textcolor})], style={'float':'left','position':'relative'}),

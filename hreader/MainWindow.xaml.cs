@@ -131,7 +131,7 @@ namespace hreader
             string Name = "\"" + normalize(NameTextBox.Text) + "\"";
 
             char textcolor = getColor(chatter2colorpicker.SelectedColor ?? Color.FromRgb(255, 255, 255));
-
+            
             string args =
                 Name
                 + " \"" + Properties.Settings.Default.Directory + "\" "
