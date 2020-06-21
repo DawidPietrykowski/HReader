@@ -14,7 +14,7 @@ To run this app on Your pc You can:
 - After you make a request to create a file, it usually takes ~1-2 days until you can download it
 - After downloading the files, unzip them somewhere - this will be Your "Conversation directory"
 # About
-Inspired by r/dataisbeautiful, I decided to make my own data visualisation tool to visualize Facebook Messages using the data You can download.
+Inspired by r/dataisbeautiful, I decided to make my own data visualization tool to visualize Facebook Messages using the data You can download.
 
 To make it, I used Python for all the data reading and calculations with Dash library for making the graphs and BeautifulSoup library for parsing HTML files. To create a simple UI, I made a C# program using WPF to display the inputs and the informations, and interact with the Python script that I converted to an exacutable using PyInstaller to work on machines without Python.
 
