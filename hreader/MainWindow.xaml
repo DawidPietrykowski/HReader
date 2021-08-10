@@ -1,0 +1,277 @@
+﻿<Window x:Class="hreader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Closed="AppClose"
+        xmlns:local="clr-namespace:hreadewrap"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="375" Width="500"
+        WindowStyle="None"
+        ResizeMode="NoResize">
+
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="Background" Color="#FF161616"/>
+        <!--Color="#FF212121"-->
+        <SolidColorBrush x:Key="Secondary" Color="#FF212121"/>
+        <!--Color="#FF323232"-->
+        <SolidColorBrush x:Key="Lighter" Color="#FF373737"/>
+        <!--Color="#FF474747"-->
+        <SolidColorBrush x:Key="MoreLighter" Color="#FF9E9E9E"/>
+        <SolidColorBrush x:Key="Darker" Color="#FF272727"/>
+        <SolidColorBrush x:Key="Popup" Color="#FF303030"/>
+
+        <Style x:Key="BarButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#FF292929"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter x:Name="PART_Content"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type TextBox}" x:Key="DarkTextboxStyle">
+            <Setter Property="Background" Value="{StaticResource Secondary}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Lighter}"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style x:Key="InfoButtonStyle" TargetType="{x:Type Image}">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Image.MouseEnter"/>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="0,0,0,0" Background="{StaticResource ResourceKey=Background}">
+        <Rectangle Fill="#FF292929" Stroke="Black" RenderTransformOrigin="0.5,0" Margin="0,0,0,0" VerticalAlignment="Top" Height="30" StrokeThickness="0" Grid.ColumnSpan="3"/>
+        <Image Source="scatter.ico" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7"/>
+        <Label Content="HReader" HorizontalAlignment="Left" VerticalAlignment="Top" Height="14" Width="65" Padding="0" Margin="35,8,0,0" Foreground="White" FontSize="14" FontFamily="Roboto" VerticalContentAlignment="Center" Focusable="False"/>
+        <Button Style="{StaticResource BarButtonStyle}" Height="30" Width="45" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,45,0" BorderThickness="0" Click="Minimize">
+            <Image Source="minimizeIco.png" Width="11"/>
+        </Button>
+        <Button Style="{StaticResource BarButtonStyle}" Height="30" Width="45" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Exit" BorderThickness="0">
+            <Image Source="closeIco.png" Width="11"/>
+        </Button>
+
+        <TextBox Name="NameTextBox" Height="25" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="25,50,0,0" VerticalContentAlignment="Center" RenderTransformOrigin="0.5,0.5" BorderBrush="#FF707070" BorderThickness="0" HorizontalAlignment="Left" Width="270" Foreground="White" Padding="4,0,0,0" SelectionOpacity="0">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Setter Property="Background" Value="{StaticResource Darker}"/>
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="Full name" Foreground="{StaticResource MoreLighter}"  Background="{StaticResource Darker}" Width="270"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}"/>
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="{StaticResource Darker}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Button Name="DButton" Content="Create Dashboard"  HorizontalAlignment="Right" Margin="0,50,25,0" VerticalAlignment="Top" Width="130" Height="25" Click="StartDashboard" Background="{StaticResource Lighter}" Foreground="White" BorderBrush="{StaticResource Lighter}" BorderThickness="0" FontFamily="Roboto"/>
+        <TextBox Name="FileNameTextBox" Height="25" TextWrapping="NoWrap" VerticalAlignment="Top" Margin="25,100,0,0"  VerticalContentAlignment="Center" TextChanged="DirectoryChanged"  Foreground="White" BorderBrush="#FF707070" BorderThickness="0" HorizontalAlignment="Left" Width="340" Padding="4,0,0,0" SelectionOpacity="0">
+            <TextBox.Style>
+                <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                    <Setter Property="Background" Value="{StaticResource Darker}"/>
+                    <Style.Resources>
+                        <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                            <VisualBrush.Visual>
+                                <Label Content="Path to conversation" Foreground="{StaticResource MoreLighter}"  Background="{StaticResource Darker}" Width="500"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="{StaticResource Darker}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Button Content="Browse" HorizontalAlignment="Left" Margin="410,100,0,0" VerticalAlignment="Top" Width="65" Click="BrowseDirectory" Height="25" VerticalContentAlignment="Center" Background="{StaticResource Lighter}" Foreground="White" BorderBrush="{StaticResource Lighter}" BorderThickness="0" FontFamily="Roboto"/>
+
+        <WrapPanel HorizontalAlignment="Left" Margin="25,140,0,0" VerticalAlignment="Top" Width="150" Height="20">
+            <CheckBox Name="SettingsCheckbox" Content="Advanced settings" Height="20" Margin="0,0,0,0" HorizontalAlignment="Left" Width="120" VerticalAlignment="Top" Background="White" Foreground="White" Padding="2,0,0,0" FontFamily="Roboto" UseLayoutRounding="False"  Checked="Settings" Unchecked="Settings"  VerticalContentAlignment="Center"/>
+        </WrapPanel>
+        <WrapPanel Margin="180,140,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="150">
+            <Label Background="#00000000" Foreground="White" FontFamily="Roboto" HorizontalAlignment="Left" Margin="0,0,5,0" Padding="0" VerticalContentAlignment="Center">Data format</Label>
+            <ComboBox Name="ModeBox" Height="20" Margin="0,0,0,0" HorizontalAlignment="Left" Width="Auto" Background="White" Foreground="Black" Padding="5,0,0,0" FontFamily="Roboto" VerticalContentAlignment="Center" UseLayoutRounding="False" BorderBrush="#FFE2E2E2">
+                <ComboBoxItem Foreground="Black" IsSelected="True">JSON</ComboBoxItem>
+                <ComboBoxItem>HTML</ComboBoxItem>
+            </ComboBox>
+            <StackPanel MouseLeave="ModePopup_MouseLeave" MouseEnter="ModePopup_MouseEnter" Background="#00323232" Width="14" Height="14" Margin="5,0,0,0" HorizontalAlignment="Left">
+                <Image  x:Name="ModePopupImg" Source="infoIco.png" Width="14"  Height="14" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <Popup x:Name="ModePopup" PlacementTarget="{Binding ElementName=ModePopupImg}" HorizontalOffset="14" StaysOpen="True" Focusable="False">
+                <StackPanel Background="{StaticResource Background}" Width="Auto" Height="Auto">
+                    <Border BorderThickness="6" BorderBrush="{StaticResource Popup}" CornerRadius="2" Background="{StaticResource Popup}">
+                        <TextBlock Padding="0" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" Background="{StaticResource Popup}" VerticalAlignment="Center">Downloaded format.</TextBlock>
+                    </Border>
+                </StackPanel>
+            </Popup>
+        </WrapPanel>
+        <WrapPanel HorizontalAlignment="Left" Margin="355,140,0,0" VerticalAlignment="Top" Width="120" Height="20" Focusable="False">
+            <TextBlock Name="StatusBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Status: not running" VerticalAlignment="Top" Margin="0,3,0,0" Height="14" Foreground="White" FontFamily="Roboto" RenderTransformOrigin="1,0.5"/>
+        </WrapPanel>
+
+        <Grid Name="AdvSettings" Margin="0,160,0,0" Height="120" VerticalAlignment="Top" Visibility="Hidden">
+            <WrapPanel Width="200" Height="20" Margin="25,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <CheckBox Name="TrimCheckbox"  Content="Trimming" Height="20" Margin="0,0,0,0" HorizontalAlignment="Left" Width="68" VerticalAlignment="Top" Background="White" Foreground="White" Padding="2,0,0,0" FontFamily="Roboto" VerticalContentAlignment="Center" UseLayoutRounding="False" IsChecked="True"/>
+                <StackPanel MouseLeave="TrimmingPopup_MouseLeave" MouseEnter="TrimmingPopup_MouseEnter" Background="#00323232" Width="14" Height="14" Margin="4,0,0,0" HorizontalAlignment="Right">
+                    <Image  x:Name="TrimmingPopupImg" Source="infoIco.png" Width="14"  Height="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Popup x:Name="TrimmingPopup" PlacementTarget="{Binding ElementName=TrimmingPopupImg}" HorizontalOffset="14" StaysOpen="True" Focusable="False">
+                    <StackPanel Background="{StaticResource Background}" Width="260" Height="Auto">
+                        <Border BorderThickness="6" BorderBrush="{StaticResource Popup}" CornerRadius="2" Background="{StaticResource Popup}">
+                            <TextBlock Padding="0" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" Background="{StaticResource Popup}" VerticalAlignment="Center"><Run Text="Trimming is a process of shortening words, so that they are not missed in counting step."/><LineBreak/><Run Text="For example: &quot;wooow&quot; is counted as &quot;wow&quot;"/></TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Popup>
+            </WrapPanel>
+            <WrapPanel Width="200" Height="20" Margin="25,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Label Background="#00000000" Foreground="White" FontFamily="Roboto" HorizontalAlignment="Left" Margin="0,0,5,0" Padding="0" VerticalContentAlignment="Center">Conversation language</Label>
+                <ComboBox Name="LanguageSelect"  Height="20" Margin="0,0,0,0" HorizontalAlignment="Left" Width="Auto" Foreground="Black" Padding="5,0,0,0" FontFamily="Roboto" VerticalContentAlignment="Center" UseLayoutRounding="False" BorderBrush="#FF8B2121">
+                    <ComboBox.Background>
+                        <SolidColorBrush Color="#FF7C7C7C" Opacity="0.8"/>
+                    </ComboBox.Background>
+                    <ComboBoxItem Name="en">English</ComboBoxItem>
+                    <ComboBoxItem Name="pl" Foreground="Black" IsSelected="True">Polish</ComboBoxItem>
+                </ComboBox>
+                <StackPanel MouseLeave="LangPopup_MouseLeave" MouseEnter="LangPopup_MouseEnter" Background="#00323232" Width="14" Height="14" Margin="5,0,0,0" HorizontalAlignment="Right">
+                    <Image  x:Name="LangPopupImg" Source="infoIco.png" Width="14"  Height="14" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <Popup x:Name="LangPopup" PlacementTarget="{Binding ElementName=LangPopupImg}" HorizontalOffset="14" StaysOpen="True" Focusable="False">
+                    <StackPanel Background="{StaticResource Background}" Width="Auto" Height="Auto">
+                        <Border BorderThickness="6" BorderBrush="{StaticResource Popup}" CornerRadius="2" Background="{StaticResource Popup}">
+                            <TextBlock Padding="0" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" Background="{StaticResource Popup}" VerticalAlignment="Center">Choose a language used in a conversation.</TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Popup>
+            </WrapPanel>
+            <WrapPanel Margin="25,70,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200">
+                <Label Name="CommonWordsEdit" Background="#00000000" Height="20" Foreground="White" FontFamily="Roboto" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0" Padding="0" VerticalContentAlignment="Center">Common words</Label>
+                <Button Height="20" Width="35" Click="OpenCommonWords" Background="{StaticResource Lighter}" Foreground="White" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Padding="0,0,1,0">Edit</Button>
+                <StackPanel MouseLeave="CommonWordsPopup_MouseLeave" MouseEnter="CommonWordsPopup_MouseEnter" Background="#00323232" Width="14" Height="14" Margin="5,0,0,0" HorizontalAlignment="Left">
+                    <Image  x:Name="CommonWordsPopupImg" Source="infoIco.png" Width="14"  Height="14" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <Popup x:Name="CommonWordsPopup" PlacementTarget="{Binding ElementName=CommonWordsPopupImg}" HorizontalOffset="14" StaysOpen="True" Focusable="False">
+                    <StackPanel Background="{StaticResource Background}" Width="Auto" Height="Auto">
+                        <Border BorderThickness="6" BorderBrush="{StaticResource Popup}" CornerRadius="2" Background="{StaticResource Popup}">
+                            <TextBlock Padding="0" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" Background="{StaticResource Popup}" VerticalAlignment="Center">Words not counted as most used.</TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Popup>
+            </WrapPanel>
+            <WrapPanel Width="200" Height="20" Margin="25,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Label Background="#00000000" Foreground="White" FontFamily="Roboto" HorizontalAlignment="Left" Margin="0,0,5,0" Padding="0" VerticalContentAlignment="Center">Resolution</Label>
+                <TextBox Name="ResTextBox" Style="{StaticResource DarkTextboxStyle}" Height="20" Width="Auto" PreviewTextInput="Resolution_PreviewTextInput" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="2,0">50</TextBox>
+                <StackPanel MouseLeave="ResolutionPopup_MouseLeave" MouseEnter="ResolutionPopup_MouseEnter" Background="#00323232" Width="14" Height="14" Margin="5,0,0,0" HorizontalAlignment="Left">
+                    <Image  x:Name="ResolutionPopupImg" Source="infoIco.png" Width="14"  Height="14" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <Popup x:Name="ResolutionPopup" PlacementTarget="{Binding ElementName=ResolutionPopupImg}" HorizontalOffset="14" StaysOpen="True" Focusable="False">
+                    <StackPanel Background="{StaticResource Background}" Width="Auto" Height="Auto">
+                        <Border BorderThickness="6" BorderBrush="{StaticResource Popup}" CornerRadius="2" Background="{StaticResource Popup}">
+                            <TextBlock Padding="0" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" Background="{StaticResource Popup}" VerticalAlignment="Center">Number of data points on graph.</TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Popup>
+            </WrapPanel>
+            <WrapPanel Width="200" Height="Auto" Margin="250,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Label Background="#00000000" Foreground="White" FontFamily="Roboto" HorizontalAlignment="Left" Margin="0,0,5,0" Padding="0" VerticalContentAlignment="Center">Most common words</Label>
+                <TextBox Name="WordNBox" Style="{StaticResource DarkTextboxStyle}" Height="20" Width="Auto" PreviewTextInput="Resolution_PreviewTextInput" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="2,0">40</TextBox>
+                <StackPanel MouseLeave="ColumnPopup_MouseLeave" MouseEnter="ColumnPopup_MouseEnter" Background="#00323232" Width="14" Height="14" Margin="5,0,0,0" HorizontalAlignment="Left">
+                    <Image  x:Name="ColumnPopupImg" Source="infoIco.png" Width="14"  Height="14" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <Popup x:Name="ColumnPopup" PlacementTarget="{Binding ElementName=ColumnPopupImg}" HorizontalOffset="14" StaysOpen="True" Focusable="False">
+                    <StackPanel Background="{StaticResource Background}" Width="Auto" Height="Auto">
+                        <Border BorderThickness="6" BorderBrush="{StaticResource Popup}" CornerRadius="2" Background="{StaticResource Popup}">
+                            <TextBlock Padding="0" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" Background="{StaticResource Popup}" VerticalAlignment="Center">Number of most common words to show.</TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Popup>
+            </WrapPanel>
+            <WrapPanel Width="200" Height="20" Margin="250,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Label Background="#00000000" Foreground="White" FontFamily="Roboto" HorizontalAlignment="Left" Margin="0,0,5,0" Padding="0" VerticalContentAlignment="Center">Trimming limit</Label>
+                <TextBox Name="TrimlimitTextBox" Style="{StaticResource DarkTextboxStyle}" Height="20" Width="Auto" PreviewTextInput="Resolution_PreviewTextInput" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="2,0" HorizontalAlignment="Left">2</TextBox>
+                <StackPanel MouseLeave="TrimlimitPopup_MouseLeave" MouseEnter="TrimlimitPopup_MouseEnter" Background="#00323232" Width="14" Height="14" Margin="5,0,0,0" HorizontalAlignment="Left">
+                    <Image  x:Name="TrimlimitPopupImg" Source="infoIco.png" Width="14"  Height="14" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <Popup x:Name="TrimlimitPopup" PlacementTarget="{Binding ElementName=TrimlimitPopupImg}" HorizontalOffset="14" StaysOpen="True" Focusable="False">
+                    <StackPanel Background="{StaticResource Background}" Width="200" Height="Auto">
+                        <Border BorderThickness="6" BorderBrush="{StaticResource Popup}" CornerRadius="2" Background="{StaticResource Popup}">
+                            <TextBlock Padding="0" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" Background="{StaticResource Popup}" VerticalAlignment="Center">Minimum word length requrement for trimming.</TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Popup>
+            </WrapPanel>
+            <WrapPanel Width="210" Height="20" Margin="250,70,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Label Name="labell" Background="#00000000" Foreground="White" FontFamily="Roboto" HorizontalAlignment="Left" Margin="0,0,5,0" Padding="0" VerticalContentAlignment="Center">Chatters colors</Label>
+                <xctk:ColorPicker SelectedColor="#C73679" Name="chatter1colorpicker" Width="50" BorderThickness="1,1,1,3" Margin="0,0,5,0" Padding="0,0,0,0"></xctk:ColorPicker>
+                <xctk:ColorPicker SelectedColor="#3679C7" Name="chatter2colorpicker" Width="50" Height="20" Padding="0" BorderThickness="1,1,1,3" Margin="0,0,0,0" UseLayoutRounding="False"/>
+                <StackPanel MouseLeave="ColorPopup_MouseLeave" MouseEnter="ColorPopup_MouseEnter" Background="#00323232" Width="14" Height="14" Margin="5,0,0,0" HorizontalAlignment="Left">
+                    <Image  x:Name="ColorPopupImg" Source="infoIco.png" Width="14"  Height="14" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <Popup x:Name="ColorPopup" PlacementTarget="{Binding ElementName=ColorPopupImg}" HorizontalOffset="14" StaysOpen="True" Focusable="False">
+                    <StackPanel Background="{StaticResource Background}" Width="Auto" Height="Auto">
+                        <Border BorderThickness="6" BorderBrush="{StaticResource Popup}" CornerRadius="2" Background="{StaticResource Popup}">
+                            <TextBlock Padding="0" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" Background="{StaticResource Popup}" VerticalAlignment="Center">Colors used in graphs for each person.</TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Popup>
+            </WrapPanel>
+            <WrapPanel Width="200" Height="20" Margin="250,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Label Name="TrimEdit" Background="#00000000" Height="20" Foreground="White" FontFamily="Roboto" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,5,0" Padding="0" VerticalContentAlignment="Center">Trimming exclusions</Label>
+                <Button Height="20" Width="35" Click="OpenTrimExclusions" Background="{StaticResource Lighter}" Foreground="White" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Padding="0,0,1,0">Edit</Button>
+                <StackPanel MouseLeave="TrimEditPopup_MouseLeave" MouseEnter="TrimEditPopup_MouseEnter" Background="#00323232" Width="14" Height="14" Margin="5,0,0,0" HorizontalAlignment="Left">
+                    <Image  x:Name="TrimEditPopupImg" Source="infoIco.png" Width="14"  Height="14" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <Popup x:Name="TrimEditPopup" PlacementTarget="{Binding ElementName=TrimEditPopupImg}" HorizontalOffset="14" StaysOpen="True" Focusable="False">
+                    <StackPanel Background="{StaticResource Background}" Width="200" Height="Auto">
+                        <Border BorderThickness="6" BorderBrush="{StaticResource Popup}" CornerRadius="2" Background="{StaticResource Popup}">
+                            <TextBlock Padding="0" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="White" Background="{StaticResource Popup}" VerticalAlignment="Center">List of words skipped in trimming process.</TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Popup>
+            </WrapPanel>
+        </Grid>
+
+        <ProgressBar Name ="Progress" Margin="0,0,25,170" Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" Background="{StaticResource Secondary}" BorderThickness="2" BorderBrush="{StaticResource Lighter}" HorizontalAlignment="Right" Width="450" Height="30" VerticalAlignment="Bottom" Focusable="False" Padding="0" SmallChange="1"/>
+        <TextBlock Name="exedir" HorizontalAlignment="Left" Margin="25,0,0,25" TextWrapping="Wrap" Width="300" Foreground="White" FontFamily="Arial" Height="112" VerticalAlignment="Bottom" Focusable="False"/>
+        <Button Content="Stop dashboard" Margin="0,0,25,25" Click="Close" RenderTransformOrigin="1,1" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="100" Background="{StaticResource Lighter}" Foreground="White" BorderBrush="#FF707070" BorderThickness="0" FontFamily="Roboto"/>
+
+
+    </Grid>
+
+</Window>
+    

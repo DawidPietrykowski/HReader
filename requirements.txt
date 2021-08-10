@@ -1,0 +1,7 @@
+pyinstaller>=4.5.1
+dash_html_components>=1.1.4
+numpy>=1.21.1
+plotly>=5.1.0
+dash>=1.21.0
+dash_core_components>=1.17.1
+beautifulsoup4>=4.9.3
