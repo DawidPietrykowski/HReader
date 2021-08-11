@@ -7,7 +7,8 @@ Interactive data visualization tool for Facebook Messages.
 - compile HReader (GUI) in Visual Studio
 # Use
 To use this app you can:
-- run compiled binary **bin/hreader.exe** 
+- download and run the latest release which you can find [here](https://github.com/DawidPietrykowski/HReader/releases)
+- build and run binary **bin/hreader.exe** 
 - run the python script [fdash.py](fdash/fdash.py) with the arguments described in [argument_example.txt](fdash/argument_example.txt)
 # How to download data from Facebook
 - Log in to your account on [facebook](https://Facebook.com/)
